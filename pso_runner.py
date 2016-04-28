@@ -1,20 +1,20 @@
 import random
 import copy
 import math
-
+from matplotlib import pyplot as plt
 INERTIA = 0.75
 COGNITIVE = 1.5
 SOCIAL = 1.5
 
 GLOBAL_SEED = random.Random(0)
-NR_ISLANDS = 5
-NR_ISOLATED_STEPS = 100
-NR_COMMON_STEPS = 100
+NR_SWARM_STEPS = 100
 DIM_OF_PARTICLES = 3
-NR_PARTICLES_PER_ISLAND = 50
+PARTICLES_NO = 25
 MIN_V = -50
 MAX_V = 50
 
+counter = 0
+progress = []
 
 def rastriginFunc(currPos):
 	fitness = 10*len(currPos)
@@ -41,7 +41,7 @@ class Particle:
 
 
 def move(swarm, dim, bestGlobalPos, minV, maxV):
-
+    global counter
     for part in swarm:
         for d in xrange(dim):
             r1 = GLOBAL_SEED.random()
@@ -53,7 +53,7 @@ def move(swarm, dim, bestGlobalPos, minV, maxV):
             part.velocity[d] = myVelocityComponent + myBestVisitedPosComponent + globallyBestComponent
             part.position[d] = min(maxV, max(minV, part.position[d] + part.velocity[d]))
         part.currFitness = evalFitness(part.position)
-
+        counter +=1
         if part.currFitness < part.bestVisitedFitness:
             part.bestVisitedFitness = part.currFitness
             part.bestVisitedPosition = copy.copy(part.position)
@@ -74,8 +74,9 @@ def solve(maxSteps, n, dim, minV, maxV, sw = None, verbose = False):
         if bestParticleCandidate.currFitness < bestFitness:
             bestPosition = bestParticleCandidate.position
             bestFitness = bestParticleCandidate.currFitness
-
-        if nrOfStep % 10 ==0:
+        if counter % 100 == 0:
+            progress.append((counter, bestFitness))
+        if nrOfStep % 10 ==0 and verbose:
             print("iteration nr {0}, best fitness: {1} ".format(nrOfStep, bestFitness))
     if verbose:
         print bestPosition
@@ -84,8 +85,11 @@ def solve(maxSteps, n, dim, minV, maxV, sw = None, verbose = False):
 
 if __name__ == '__main__':
     population = []
-    for x in xrange(NR_ISLANDS):
-        print "-------------------------nr of island {0}-------------------------------".format(x)
-        population += solve(NR_ISOLATED_STEPS, NR_PARTICLES_PER_ISLAND, DIM_OF_PARTICLES, MIN_V, MAX_V)
-    print "SIZE OF POPULATION: ", len(population)
-    solve(NR_ISOLATED_STEPS, 0, DIM_OF_PARTICLES, MIN_V, MAX_V, sw=population, verbose=True)
+    print "SIZE OF POPULATION: ", PARTICLES_NO
+    print "FULL SWARM MOVES NO: ", NR_SWARM_STEPS
+    print "FITNESS TO BE CALLED {0} TIMES".format(NR_SWARM_STEPS * PARTICLES_NO)
+
+    population += solve(NR_SWARM_STEPS, PARTICLES_NO, DIM_OF_PARTICLES, MIN_V, MAX_V)
+    print progress
+    plt.plot([p[1] for p in progress],[p[0] for p in progress])
+    plt.show()
