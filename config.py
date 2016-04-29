@@ -1,8 +1,8 @@
 import random
 
 GLOBAL_SEED = random.Random(0)
-COORD_MIN = -50
-COORD_MAX = 50
-DIMENSIONALITY = 3
-POPULATION_SIZE = 25
-NR_STEPS = 100
+coord_min = -50
+coord_max = 50
+dimensionality = 10
+population_size = 25
+nr_steps = 1000

@@ -2,10 +2,16 @@ from math import cos, pi
 from numpy.random import random
 
 
+class ObjFunc(object):
+    def __init__(self, dim, func):
+        self.dim = dim
+        self.func = func
+
+
 class Point(object):
     def __init__(self, dim, coord_min, coord_max):
         self.position = [(coord_max - coord_min) * random() + coord_min for _ in xrange(dim)]
-        self.currFitness = eval_fitness(self.position)
+        self.currFitness = None
 
     def __str__(self):
         return str(self.position) + "\nfitness: " + str(self.currFitness)
@@ -18,5 +24,5 @@ def rastrigin_func(currPos):
     return fitness
 
 
-def eval_fitness(pos):
-    return rastrigin_func(pos)
+def reverse_sign(obj_function):
+    return ObjFunc(obj_function.dim, lambda x: -(obj_function.func(x)))
