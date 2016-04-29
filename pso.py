@@ -13,17 +13,15 @@ counter = 0
 progress = []
 
 
-class Particle(object):
+class Particle(Point):
     def __init__(self, dim, minV, maxV, seed):
+        super(Particle, self).__init__(dim, minV, maxV)
         self.randVal = random.Random(seed)
-        self.position = [(maxV - minV) * self.randVal.random() for x in xrange(dim)]
+        # self.position = [(maxV - minV) * self.randVal.random() for x in xrange(dim)]
         self.velocity = [(maxV - minV) * self.randVal.random() for x in xrange(dim)]
-        self.currFitness = eval_fitness(self.position)
+        # self.currFitness = eval_fitness(self.position)
         self.bestVisitedPosition = copy.copy(self.position)
         self.bestVisitedFitness = self.currFitness
-
-    def __str__(self):
-        return str(self.position) + "\nfitness: " + str(self.currFitness)
 
 
 def move(swarm, dim, bestGlobalPos, minV, maxV):
@@ -51,6 +49,7 @@ def solve(maxSteps, n, dim, minV, maxV, sw=None, verbose=False):
         swarm = [Particle(dim, minV, maxV, GLOBAL_SEED.random()) for i in range(n)]
     else:
         swarm = sw
+
     bestParticle = min(swarm, key=lambda particle: particle.currFitness)
     bestPosition = copy.copy(bestParticle.position)
     bestFitness = eval_fitness(bestPosition)
@@ -70,7 +69,7 @@ def solve(maxSteps, n, dim, minV, maxV, sw=None, verbose=False):
     return swarm
 
 
-if __name__ == '__main__':
+def run_pso():
     population = []
     print "SIZE OF POPULATION: ", POPULATION_SIZE
     print "FULL SWARM MOVES NO: ", NR_STEPS
@@ -80,3 +79,7 @@ if __name__ == '__main__':
     print progress
     plt.plot([p[0] for p in progress], [p[1] for p in progress])
     plt.show()
+
+
+if __name__ == '__main__':
+    run_pso()

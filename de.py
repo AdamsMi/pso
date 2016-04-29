@@ -65,7 +65,7 @@ def get_best_fit(population):
 
 # run the differential evolution algorithm
 # note: 0 < CR < 1, 1 < F < 2
-def run_de(CR=0.9, F=0.5):
+def solve(CR=0.9, F=0.5):
     # initialize the population:
     population = []
     for i in xrange(POPULATION_SIZE):
@@ -86,10 +86,15 @@ def run_de(CR=0.9, F=0.5):
 
     return prog
 
-if __name__ == '__main__':
+
+def run_de():
     print "SIZE OF POPULATION: ", POPULATION_SIZE
     print "FULL MOVES NO: ", NR_STEPS
     print "FITNESS TO BE CALLED {0} TIMES".format(NR_STEPS * POPULATION_SIZE)
-    progress = run_de()
+    progress = solve()
     plt.plot(progress)
     plt.show()
+
+
+if __name__ == '__main__':
+    run_de()
