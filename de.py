@@ -150,7 +150,13 @@ def run_de(fit_func, dimensionality, population_size, interval, stopping_criteri
 def param_fit(obj_function,
               population_size=config.population_size,
               interval=(config.coord_min, config.coord_max)):
-
+    """
+        Tries to find the best parameters for DE.
+        :param obj_function: function to be minimized
+        :param population_size: size of the population to use during the algorithm
+        :param interval: interval on which to optimize the function
+        :return: dictionary with best parameters
+        """
     CRs = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
     Fs = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 

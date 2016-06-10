@@ -106,16 +106,18 @@ def target_fit_test(fitnesses, smoothing=3):
     plt.show()
 
 
-# best params for DE: {'CR': 0.75, 'F': 0.3}
-# best params for PSO: {'cognitive': 1.2, 'inertia': 0.53, 'social': 1.2}
+DE = {'CR': 0.75, 'F': 0.3}
+PSO = {'cognitive': 1.2, 'inertia': 0.53, 'social': 1.2}
 
 if __name__ == '__main__':
-    # print "Iterations test..."
-    # iterations_test(250, 500, 5, 3)
-    #
-    # print "Target fitness test"
-    # fits = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10]
-    # target_fit_test(fits)
+    print "Iterations test..."
+    iterations_test(250, 500, 5, 3)
 
-    # print de.param_fit(obj_func)
+    print "Target fitness test"
+    fits = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10]
+    target_fit_test(fits)
+
+    print "Fitting DE params:"
+    print de.param_fit(obj_func)
+    print 'Fitting PSO params:'
     print pso.param_fit(obj_func)

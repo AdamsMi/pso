@@ -135,7 +135,13 @@ def run_pso(fit_func, dimensionality, population_size, interval, stopping_criter
 def param_fit(obj_function,
               population_size=config.population_size,
               interval=(config.coord_min, config.coord_max)):
-
+    """
+    Tries to find the best parameters for PSO.
+    :param obj_function: function to be minimized
+    :param population_size: size of the population to use during the algorithm
+    :param interval: interval on which to optimize the function
+    :return: dictionary with best parameters
+    """
     inertias = [0.5, 0.53, 0.57, 0.59, 0.63, 0.69, 0.75]
     cognitives = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
     socials = [1.2, 1.5, 1.7, 1.9]
